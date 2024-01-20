@@ -5,11 +5,10 @@
  * @b: second ...
  * Return: null
  */
-void swap_quick(int *a, int *b)
-{
-	int temp = *a;
-	*a = *b;
-	*b = temp;
+void swap(int* a, int* b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
 }
 
 /**
@@ -21,31 +20,26 @@ void swap_quick(int *a, int *b)
  * @size: array size
  * Return: NULL
  */
-int partition(int *arr, int low, int high, int size)
-{
-	int pivot = arr[high]; /* Choose the last element as the pivot */
-	int i = low; /* Index of the smaller element*/
-	int j;
+int partition(int arr[], int low, int high, int size) {
+    /* Choose the pivot */
+    int pivot = arr[high];
+    
+    /* Index of smaller element and indicate*/
+    /* the right position of pivot found so far*/
+    int i = (low - 1);
 
-	for (j = low; j < high; j++)
-	{
-		if (arr[j] < pivot)
-		{
-			if (i < j)
-			{
-			swap_quick(&arr[i], &arr[j]);
-			print_array(arr, size);
-			}
-			i++;
-		}
-	}
-	/*Place the pivot element in its correct position*/
-	if (arr[i] > arr[high])
-	{
-	swap_quick(&arr[i], &arr[high]);
-	print_array(arr, size);
-	}
-	return (i);
+    for (int j = low; j <= high; j++) {
+        /* If current element is smaller than the pivot*/
+        if (arr[j] < pivot) {
+            // Increment index of smaller element
+            i++;
+            swap(&arr[i], &arr[j]);
+            print_array(arr, size);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    print_array(arr, size);
+    return (i + 1);
 }
 
 /**
@@ -56,18 +50,20 @@ int partition(int *arr, int low, int high, int size)
  * @size: ==
  * Return: NULL
  */
-void quickSort_helper(int *arr, int low, int high, int size)
-{
-	if (high - low > 0)
-	{
-		int pi = partition(arr, low, high, size); /*Partition the array*/
-
-		/* Recursively sort elements before the pivot*/
-		quickSort_helper(arr, low, pi - 1, size);
-		/*Recursively sort elements after the pivot*/
-		quickSort_helper(arr, pi + 1, high, size);
-	}
+void quickSort_helper(int arr[], int low, int high, int size) {
+    /* When low is less than high*/
+    if (low < high) {
+        /* pi is the partition return index of pivot*/
+        int pi = partition(arr, low, high, size);
+        
+        /* Recursion call*/
+        /* Smaller element than pivot goes left and*/
+        /* higher element goes right*/
+        quickSort_helper(arr, low, pi - 1, size);
+        quickSort_helper(arr, pi + 1, high, size);
+    }
 }
+
 /**
  * quick_sort - ====
  * @array: array
