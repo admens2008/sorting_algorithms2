@@ -42,8 +42,8 @@ int partition(int *arr, int low, int high, int size)
 	/*Place the pivot element in its correct position*/
 	if (arr[i] > arr[high])
 	{
-		swap_quick(&arr[i], &arr[high]);
-		print_array(arr, size);
+	swap_quick(&arr[i], &arr[high]);
+	print_array(arr, size);
 	}
 	return (i);
 }
