@@ -1,8 +1,26 @@
 #include "sort.h"
-
+#include <stdbool.h>
 int getMax(int a[], int n);
 void countingSort(int a[], int n, int place);
 void radix_sort(int *array, size_t size);
+/**
+ * is_sorted - check if array is sorted
+ * @array: array
+ * @size: array size
+ * Return: bool
+ */
+bool is_sorted(int *array, size_t size)
+{
+	size_t i;
+
+	for (i = 1; i < size; i++)
+	{
+		if (array[i] < array[i - 1])
+			return (false);
+	}
+
+	return (true);
+}
 /**
  * getMax - max number
  * @a: array
@@ -29,13 +47,14 @@ int getMax(int a[], int n)
  */
 void countingSort(int a[], int n, int place)
 {
-	int *output = malloc((n) * sizeof(int));
-	int count[20] = {0};
+	int output[1024];
+	int count[1024] = {0};
 	int i;
-	int placeincrement = 0;
+	/*int placeincrement = 0;*/
 
-	if (output == NULL)
-		return;
+	/*output = malloc((n + 3) * sizeof(int));*/
+	/*if (output == NULL)*/
+		/*return;*/
 
 	/* Calculate count of elements*/
 	for (i = 0; i < n; i++)
@@ -50,15 +69,15 @@ void countingSort(int a[], int n, int place)
 	{
 		output[count[(a[i] / place) % 10] - 1] = a[i];
 		count[(a[i] / place) % 10]--;
-		placeincrement = 1;
+		/*placeincrement = 1;*/
 	}
 
 	for (i = 0; i < n; i++)
 		a[i] = output[i];
-	if (placeincrement > 0)
-		print_array(a, n);
 
-	free(output);
+	print_array(a, n);
+
+	/*free(output);*/
 }
 /**
  * radix_sort - radix sort
@@ -68,13 +87,13 @@ void countingSort(int a[], int n, int place)
 void radix_sort(int *array, size_t size)
 {
 	/* get maximum element from array */
-	int max = getMax(array, size);
+	int max;
 	int place;
 
 	if (array == NULL || size < 2)
 		return;
+	 max = getMax(array, size);
 	/* Apply counting sort to sort elements based on place value*/
 	for (place = 1; max / place > 0; place *= 10)
 		countingSort(array, size, place);
 }
-
